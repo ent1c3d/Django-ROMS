@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^order/delete/(?P<order_id>\d+)/$', my_order.destroy, name='delete'),
     url(r'^products$', my_order.index_product, name='home_product'),
     url(r'^product/new/$', my_order.new_product, name='new_product'),
+    url(r'^product/edit/(?P<product_id>\d+)/$', my_order.edit_product, name='edit_product'),
     url(r'^product/delete/(?P<product_id>\d+)/$', my_order.destroy_product, name='delete_product'),
     url(r'^users/login/$', auth.login, {'template_name': 'login.html'}, name='login'),
     url(r'^users/logout/$', auth.logout, {'next_page': '/'}, name='logout'),

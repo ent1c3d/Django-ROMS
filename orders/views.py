@@ -89,4 +89,21 @@ def destroy_product(request, product_id):
     if Product.objects.filter(id=product_id).update(active='0'):
         return redirect('/products', messages.success(request, 'Product was successfully deleted.', 'alert-success'))  
     else:
-        return redirect('/products', messages.danger(request, 'Cannot delete product while its order exists.', 'alert-danger'))  
+        return redirect('/products', messages.danger(request, 'Cannot delete product while its order exists.', 'alert-danger'))
+
+
+@login_required
+def edit_product(request, product_id):
+    product = Product.objects.get(id=product_id)
+    if request.POST:
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            if form.save():
+                return redirect('/products', messages.success(request, 'Product was successfully updated.', 'alert-success'))
+            else:
+                return redirect('/products', messages.error(request, 'Data is not saved', 'alert-danger'))
+        else:
+            return redirect('/products', messages.error(request, 'Form is not valid', 'alert-danger'))
+    else:
+        form = ProductForm(instance=product)
+        return render(request, 'edit_product.html', {'product_form':form})
